@@ -1,110 +1,88 @@
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/badge/nextjs--starter--fullstack--node-0a0a0a?style=for-the-badge&logo=next.js&logoColor=white">
-    <img alt="nextjs-starter-fullstack-node" src="https://img.shields.io/badge/nextjs--starter--fullstack--node-ffffff?style=for-the-badge&logo=next.js&logoColor=black">
-  </picture>
-</p>
+A slate.
+ SOME DETAILS -
 
-<p align="center">
-  <a href="https://github.com/MrSaikatS/nextjs-starter-fullstack-node/stargazers">
-    <img src="https://img.shields.io/github/stars/MrSaikatS/nextjs-starter-fullstack-node?style=for-the-badge&logo=github&color=gold" alt="GitHub Stars">
-  </a>
-  <a href="https://github.com/MrSaikatS/nextjs-starter-fullstack-node/issues">
-    <img src="https://img.shields.io/github/issues/MrSaikatS/nextjs-starter-fullstack-node?style=for-the-badge&logo=github" alt="GitHub Issues">
-  </a>
-  <a href="https://github.com/MrSaikatS/nextjs-starter-fullstack-node/blob/main/LICENSE">
-    <img src="https://img.shields.io/github/license/MrSaikatS/nextjs-starter-fullstack-node?style=for-the-badge&logo=github" alt="License">
-  </a>
-</p>
+## Overview
 
-<p align="center">
-  ⭐ If you find this project useful, consider giving it a star - it helps others discover it!
-</p>
+This is a Next.js 16 full-stack starter for building a frontend on top of a small, typed backend. The project currently includes a minimal task API backed by SQLite and Prisma. Authentication, authorization, and application-specific domain logic are not included yet.
 
-<p align="center">Production-ready Next.js starter template - TypeScript, Prisma 7 + SQLite, shadcn/ui, React Compiler, and modern tooling out of the box.</p>
+## Stack
 
----
+- Next.js 16 App Router
+- React 19 and TypeScript in strict mode
+- Tailwind CSS 4 and shadcn/ui components
+- Prisma 7 with SQLite through the libSQL adapter
+- Zod validation for API input
+- ESLint and Prettier
 
-## 🧰 What's Inside
+## Requirements
 
-| Feature                    | Description                                          |
-| -------------------------- | ---------------------------------------------------- |
-| **Next.js 16**             | App Router, React 19, typed routes, React Compiler   |
-| **Prisma 7 + SQLite**      | Type-safe database client via libSQL adapter         |
-| **shadcn/ui**              | Base UI primitives, base-vega style, dark/light mode |
-| **react-hook-form + Zod**  | Form validation pattern ready to use                 |
-| **next-themes**            | Dark/light mode with system preference detection     |
-| **Tailwind CSS 4**         | Utility-first CSS, tw-animate-css                    |
-| **ESLint + Prettier**      | Flat config, core-web-vitals, Tailwind plugin        |
-| **Environment Validation** | `@t3-oss/env-nextjs` for client & server env vars    |
+- Node.js 24 or newer
+- npm 11 or newer
 
-## ✅ Prerequisites
+## Local Setup
 
-- [Bun](https://bun.sh) - runtime + package manager
-- Node.js >=24.x, npm >=11.x (for compatibility)
-- PowerShell 7+ (Windows) or bash (macOS/Linux)
-
-## 🚀 Getting Started
-
-```bash
-git clone https://github.com/MrSaikatS/nextjs-starter-fullstack-node.git
-cd nextjs-starter-fullstack-node
-bun install
-bun run migrate    # apply Prisma migrations + generate client
-bun run dev        # start dev server at http://localhost:3000
+```powershell
+npm install
+Copy-Item .env.example .env
+npm run migrate
+npm run dev
 ```
 
-Copy `.env.example` to `.env` if starting fresh - defaults work for local SQLite.
+Open `http://localhost:3000` after the dev server starts. The default local database is `prisma/dev.db` and is created by `npm run migrate`.
 
-## 📦 Tech Stack
+## Useful Commands
 
-| Layer     | Technology                                      |
-| --------- | ----------------------------------------------- |
-| Framework | Next.js 16 (App Router)                         |
-| Language  | TypeScript 6 (strict)                           |
-| UI        | React 19, Tailwind CSS 4, shadcn/ui (base-vega) |
-| Forms     | react-hook-form + Zod 4 + @hookform/resolvers   |
-| Database  | SQLite via Prisma 7 + libSQL adapter            |
-| Icons     | lucide-react                                    |
-| Theme     | next-themes                                     |
-| Compiler  | React Compiler enabled                          |
-| Lint      | ESLint 9 (flat config) + Prettier 3             |
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Start the development server |
+| `npm run lint:check` | Generate route types, run TypeScript, and run ESLint |
+| `npm run build` | Generate Prisma and create a production build |
+| `npm run start` | Start the production build |
+| `npm run migrate` | Apply database migrations and generate Prisma Client |
+| `npm run studio` | Open Prisma Studio without launching a browser |
 
-## ⚙️ Scripts
+## Backend API
 
-| Script    | Command                                       |
-| --------- | --------------------------------------------- |
-| `dev`     | `next dev`                                    |
-| `build`   | `prisma generate && next build`               |
-| `start`   | `next start`                                  |
-| `lint`    | `next typegen && tsc --noEmit && eslint`      |
-| `prod`    | `prisma generate && next build && next start` |
-| `migrate` | `prisma migrate dev && prisma generate`       |
-| `studio`  | `prisma studio --browser none`                |
+All API routes are under `src/app/api` and return JSON.
 
-## 🔌 Integrations
+| Method | Endpoint | Body or query | Description |
+| --- | --- | --- | --- |
+| `GET` | `/api/health` | None | Returns the server health status |
+| `GET` | `/api/tasks` | `completed=true\|false`, `limit=1..100` | Lists tasks |
+| `POST` | `/api/tasks` | `{ "title": "Ship feature" }` | Creates a task |
+| `GET` | `/api/tasks/:id` | None | Gets one task |
+| `PATCH` | `/api/tasks/:id` | `{ "title": "...", "completed": true }` | Updates a task |
+| `DELETE` | `/api/tasks/:id` | None | Deletes a task |
 
-| Tool                       | Purpose                                                              |
-| -------------------------- | -------------------------------------------------------------------- |
-| **shadcn/ui**              | Registry-based component system (`@/components/shadcnui` alias)      |
-| **Prisma ORM 7**           | Schema-first DB with migration pipeline                              |
-| **React Compiler**         | Automatic memoization via `babel-plugin-react-compiler`              |
-| **Environment Validation** | `@t3-oss/env-nextjs` - validated `DATABASE_URL`, client/server split |
+Example request:
 
-## 🤝 Contributing
+```powershell
+Invoke-RestMethod http://localhost:3000/api/tasks -Method Post `
+	-ContentType "application/json" `
+	-Body '{"title":"Build the first screen"}'
+```
 
-1. 🍴 Fork the repository
-2. 🌿 Create a feature branch: `git checkout -b feat/amazing-feature`
-3. 💻 Make your changes
-4. 📝 Commit using [conventional commits](https://www.conventionalcommits.org/)
-5. 🚀 Open a Pull Request
+Task titles are required and must be between 1 and 200 characters. Invalid input returns HTTP `400`. Missing task IDs return HTTP `404`.
 
-Check the [issues page](https://github.com/MrSaikatS/nextjs-starter-fullstack-node/issues) for bugs or feature requests.
+## Project Layout
 
----
+```text
+src/app/                 Next.js routes and pages
+src/app/api/             Backend route handlers
+src/components/          Reusable UI components
+src/lib/dbClient/        Prisma client singleton
+src/lib/env/             Validated server and client environment variables
+prisma/schema.prisma     Database schema
+prisma/migrations/       Database migration history
+public/                  Static assets
+```
 
-<p align="center">
-  Made with ❤️ by <a href="https://github.com/MrSaikatS">Saikat Sardar</a>
-  <br>
-  🐛 Report Bug · 💡 Suggest Feature
-</p>
+## Adding Backend Features
+
+1. Add or update models in `prisma/schema.prisma`.
+2. Run `npm run migrate` and give the migration a descriptive name.
+3. Add route handlers under `src/app/api`.
+4. Validate request bodies and query parameters with Zod.
+5. Run `npm run lint:check` before handing the work off.
+
+The Prisma client is imported from `@/lib/dbClient/prisma`. Environment variables are validated in `src/lib/env/serverEnv.ts`.
